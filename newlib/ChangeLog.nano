@@ -1,0 +1,42 @@
+2013-11-26  Bin Cheng  <bin.cheng@arm.com>
+
+	* libc/stdio/findfp.c (std): Don't inline when optimizing
+	for code size.
+
+2013-11-26  Bin Cheng  <bin.cheng@arm.com>
+
+	* libc/stdio/Makefile.am: Remove i-family stream io files.
+	Support vfprintf_float.c, vfprintf_i.c, vfscanf_float.c and
+	vfscanf_i.c.
+	* libc/stdio/Makefile.in: Regenerated.
+	* libc/stdio/asnprintf.c (_asniprintf_r, asniprintf): Add
+	alias declaration for i-family functions.
+	* libc/stdio/asprintf.c (_asiprintf_r, asiprintf): Ditto.
+	* libc/stdio/dprintf.c (_diprintf_r, diprintf): Ditto.
+	* libc/stdio/fprintf.c (_fiprintf_r, fiprintf): Ditto.
+	* libc/stdio/fscanf.c (fiscanf, _fiscanf_r): Ditto.
+	* libc/stdio/printf.c (_iprintf_r, iprintf): Ditto.
+	* libc/stdio/scanf.c (iscanf, _iscanf_r): Ditto.
+	* libc/stdio/snprintf.c (_sniprintf_r, sniprintf): Ditto.
+	* libc/stdio/sprintf.c (_siprintf_r, siprintf): Ditto.
+	* libc/stdio/sscanf.c (siscanf, _siscanf_r): Ditto.
+	* libc/stdio/vasnprintf.c (_vasniprintf_r, vasniprintf): Ditto.
+	* libc/stdio/vasprintf.c (vasiprintf, _vasiprintf_r): Ditto.
+	* libc/stdio/vdprintf.c (_vdiprintf_r, vdiprintf): Ditto.
+	* libc/stdio/vprintf.c (viprintf, _viprintf_r): Ditto.
+	* libc/stdio/vscanf.c (viscanf, _viscanf_r): Ditto.
+	* libc/stdio/vsnprintf.c (vsniprintf, _vsniprintf_r): Ditto.
+	* libc/stdio/vsprintf.c (vsiprintf, _vsiprintf_r): Ditto.
+	* libc/stdio/vsscanf.c (vsiscanf, _vsiscanf_r): Ditto.
+	* libc/stdio/vfprintf.c: New implementation.
+	* libc/stdio/vfscanf.c: New implementation.
+	* libc/stdio/vfwprintf.c: Redefine macros.
+	* libc/stdio/vfwscanf.c: Redefine macros.
+	* libc/stdio/vfprintf_float.c: New file.
+	* libc/stdio/vfprintf_i.c: New file.
+	* libc/stdio/vfprintf_local.h: New file.
+	* libc/stdio/vfscanf_float.c: New file.
+	* libc/stdio/vfscanf_i.c: New file.
+	* libc/stdio/vfscanf_local.h: New file.
+	* libc/stdio/findfp.c (_cleanup_r): Skip calling _fwalk.
+	* README.nano: New file.

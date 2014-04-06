@@ -1,23 +1,42 @@
-# Object files
+*.diff
+*.patch
+*.orig
+*.rej
+
+*~
+.#*
+*#
+
+*.flt
+*.gmo
+*.info
+*.la
+*.lo
 *.o
-*.ko
-*.obj
-*.elf
+*.pyc
+*.tmp
 
-# Libraries
-*.lib
-*.a
+.deps
+.libs
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+autom4te.cache
+config.cache
+config.h
+config.intl
+config.log
+config.status
+libtool
+POTFILES
+*-POTFILES
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+TAGS
+TAGS.sub
+
+.gdbinit
+.gdb_history
+
+# ignore core files, but not java/net/protocol/core/
+core
+!core/
+
+lost+found
