@@ -13,3 +13,10 @@ newlib-nano is a derivative of the well known [newlib C library for embedded sys
  
  For ready to use downloads see the [32bitmicro web site](http://32bitmicro.com).
 
+
+### Branches
+
+* newlib-nano-2.1 - corresponds to gcc-arm-none-eabi-4_8-2014q1-20140314
+* newlib-nano-2.0 - corresponds to gcc-arm-none-eabi-4_8-2013q4-20131204
+
+
