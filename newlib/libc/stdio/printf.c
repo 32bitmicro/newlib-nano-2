@@ -25,7 +25,7 @@
 int
 _DEFUN(_printf_r, (ptr, fmt),
        struct _reent *ptr _AND
-       const char *fmt _DOTS)
+       const char *__restrict fmt _DOTS)
 {
   int ret;
   va_list ap;
@@ -44,7 +44,7 @@ _EXFUN(_iprintf_r, (struct _reent *, const char *, ...)
 
 int
 _DEFUN(printf, (fmt),
-       const char *fmt _DOTS)
+       const char *__restrict fmt _DOTS)
 {
   int ret;
   va_list ap;

@@ -1,9 +1,9 @@
-2013-11-26  Bin Cheng  <bin.cheng@arm.com>
+2014-02-28  Bin Cheng  <bin.cheng@arm.com>
 
 	* libc/stdio/findfp.c (std): Don't inline when optimizing
 	for code size.
 
-2013-11-26  Bin Cheng  <bin.cheng@arm.com>
+2014-02-28  Bin Cheng  <bin.cheng@arm.com>
 
 	* libc/stdio/Makefile.am: Remove i-family stream io files.
 	Support vfprintf_float.c, vfprintf_i.c, vfscanf_float.c and

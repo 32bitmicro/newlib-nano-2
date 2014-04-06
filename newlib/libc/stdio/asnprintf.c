@@ -15,10 +15,10 @@
 
 char *
 _DEFUN(_asnprintf_r, (ptr, buf, lenp, fmt),
-       struct _reent *ptr _AND
+       struct _reent *__restrict ptr _AND
        char *buf _AND
        size_t *lenp _AND
-       const char *fmt _DOTS)
+       const char *__restrict fmt _DOTS)
 {
   int ret;
   va_list ap;
@@ -65,9 +65,9 @@ _EXFUN(_asniprintf_r, (struct _reent *, char *, size_t *, const char *, ...)
 
 char *
 _DEFUN(asnprintf, (buf, lenp, fmt),
-       char *buf _AND
-       size_t *lenp _AND
-       const char *fmt _DOTS)
+       char *__restrict buf _AND
+       size_t *__restrict lenp _AND
+       const char *__restrict fmt _DOTS)
 {
   int ret;
   va_list ap;

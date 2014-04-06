@@ -40,9 +40,9 @@
 #ifndef	_SYS_CDEFS_H_
 #define	_SYS_CDEFS_H_
 
+#include <machine/_default_types.h>
 #include <sys/features.h>
 #include <stddef.h>
-#include <stdint.h>
 
 #define __PMT(args)	args
 #define __DOTS    	, ...
@@ -572,15 +572,15 @@
 #endif
 
 #ifndef	__DECONST
-#define	__DECONST(type, var)	((type)(uintptr_t)(const void *)(var))
+#define	__DECONST(type, var)	((type)(__uintptr_t)(const void *)(var))
 #endif
 
 #ifndef	__DEVOLATILE
-#define	__DEVOLATILE(type, var)	((type)(uintptr_t)(volatile void *)(var))
+#define	__DEVOLATILE(type, var)	((type)(__uintptr_t)(volatile void *)(var))
 #endif
 
 #ifndef	__DEQUALIFY
-#define	__DEQUALIFY(type, var)	((type)(uintptr_t)(const volatile void *)(var))
+#define	__DEQUALIFY(type, var)	((type)(__uintptr_t)(const volatile void *)(var))
 #endif
 
 /*-
@@ -693,7 +693,13 @@
 #define	__XSI_VISIBLE		0
 #define	__BSD_VISIBLE		0
 #define	__ISO_C_VISIBLE		2011
-#else				/* Default environment: show everything. */
+#elif defined(_GNU_SOURCE)	/* Everything and the kitchen sink. */
+#define	__POSIX_VISIBLE		200809
+#define	__XSI_VISIBLE		700
+#define	__BSD_VISIBLE		1
+#define	__ISO_C_VISIBLE		2011
+#define	__GNU_VISIBLE		1
+#else				/* Default: everything except __GNU_VISIBLE. */
 #define	__POSIX_VISIBLE		200809
 #define	__XSI_VISIBLE		700
 #define	__BSD_VISIBLE		1

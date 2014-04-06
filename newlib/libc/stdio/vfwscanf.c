@@ -35,14 +35,16 @@ INDEX
 ANSI_SYNOPSIS
 	#include <stdio.h>
 	#include <stdarg.h>
-	int vwscanf(const wchar_t *<[fmt]>, va_list <[list]>);
-	int vfwscanf(FILE *<[fp]>, const wchar_t *<[fmt]>, va_list <[list]>);
-	int vswscanf(const wchar_t *<[str]>, const wchar_t *<[fmt]>, va_list <[list]>);
+	int vwscanf(const wchar_t *__restrict <[fmt]>, va_list <[list]>);
+	int vfwscanf(FILE *__restrict <[fp]>,
+                     const wchar_t *__restrict <[fmt]>, va_list <[list]>);
+	int vswscanf(const wchar_t *__restrict <[str]>,
+                     const wchar_t *__restrict <[fmt]>, va_list <[list]>);
 
 	int _vwscanf(struct _reent *<[reent]>, const wchar_t *<[fmt]>,
                        va_list <[list]>);
-	int _vfwscanf(struct _reent *<[reent]>, FILE *<[fp]>, const wchar_t *<[fmt]>,
-                       va_list <[list]>);
+	int _vfwscanf(struct _reent *<[reent]>, FILE *<[fp]>,
+                      const wchar_t *<[fmt]>, va_list <[list]>);
 	int _vswscanf(struct _reent *<[reent]>, const wchar_t *<[str]>,
                        const wchar_t *<[fmt]>, va_list <[list]>);
 
@@ -50,17 +52,17 @@ TRAD_SYNOPSIS
 	#include <stdio.h>
 	#include <varargs.h>
 	int vwscanf( <[fmt]>, <[ist]>)
-	wchar_t *<[fmt]>;
+	wchar_t *__restrict <[fmt]>;
 	va_list <[list]>;
 
 	int vfwscanf( <[fp]>, <[fmt]>, <[list]>)
-	FILE *<[fp]>;
-	wchar_t *<[fmt]>;
+	FILE *__restrict <[fp]>;
+	wchar_t *__restrict <[fmt]>;
 	va_list <[list]>;
 
 	int vswscanf( <[str]>, <[fmt]>, <[list]>)
-	wchar_t *<[str]>;
-	wchar_t *<[fmt]>;
+	wchar_t *__restrict <[str]>;
+	wchar_t *__restrict <[fmt]>;
 	va_list <[list]>;
 
 	int _vwscanf( <[reent]>, <[fmt]>, <[ist]>)
@@ -148,6 +150,10 @@ C99, POSIX-1.2008
 #ifdef FLOATING_POINT
 #include <math.h>
 #include <float.h>
+#include <locale.h>
+#ifdef __HAVE_LOCALE_INFO_EXTENDED__
+#include "../locale/lnumeric.h"
+#endif
 
 /* Currently a test is made to see if long double processing is warranted.
    This could be changed in the future should the _ldtoa_r code be
@@ -243,8 +249,8 @@ static void * get_arg (int, va_list *, int *, void **);
 
 int
 _DEFUN(VFWSCANF, (fp, fmt, ap),
-       register FILE *fp _AND
-       _CONST wchar_t *fmt _AND
+       register FILE *__restrict fp _AND
+       _CONST wchar_t *__restrict fmt _AND
        va_list ap)
 {
   struct _reent *reent = _REENT;
@@ -401,6 +407,7 @@ _DEFUN(__SVFWSCANF_R, (rptr, fp, fmt0, ap),
   float *flp;
   _LONG_DOUBLE *ldp;
   double *dp;
+  wchar_t decpt;
 #endif
   long *lp;
 #ifndef _NO_LONGLONG
@@ -426,6 +433,27 @@ _DEFUN(__SVFWSCANF_R, (rptr, fp, fmt0, ap),
 #else
 # define GET_ARG(n, ap, type) (va_arg (ap, type))
 #endif
+
+#ifdef FLOATING_POINT
+#ifdef _MB_CAPABLE
+#ifdef __HAVE_LOCALE_INFO_EXTENDED__
+	  decpt = *__get_current_numeric_locale ()->wdecimal_point;
+#else
+	  {
+	    size_t nconv;
+
+	    memset (&mbs, '\0', sizeof (mbs));
+	    nconv = _mbrtowc_r (rptr, &decpt,
+				_localeconv_r (rptr)->decimal_point,
+				MB_CUR_MAX, &mbs);
+	    if (nconv == (size_t) -1 || nconv == (size_t) -2)
+	      decpt = L'.';
+	  }
+#endif /* !__HAVE_LOCALE_INFO_EXTENDED__ */
+#else
+	  decpt = (wchar_t) *_localeconv_r (rptr)->decimal_point;
+#endif /* !_MB_CAPABLE */
+#endif /* FLOATING_POINT */
 
   _newlib_flockfile_start (fp);
 
@@ -1258,14 +1286,6 @@ _DEFUN(__SVFWSCANF_R, (rptr, fp, fmt0, ap),
 		      goto fok;
 		    }
 		  break;
-		case L'.':
-		  if (flags & DPTOK)
-		    {
-		      flags &= ~(SIGNOK | DPTOK);
-		      leading_zeroes = zeroes;
-		      goto fok;
-		    }
-		  break;
 		case L'e':
 		case L'E':
 		  /* no exponent without some digits */
@@ -1281,6 +1301,14 @@ _DEFUN(__SVFWSCANF_R, (rptr, fp, fmt0, ap),
 			(flags & ~(EXPOK | DPTOK)) |
 			SIGNOK | NDIGITS;
 		      zeroes = 0;
+		      goto fok;
+		    }
+		  break;
+		default:
+		  if ((wchar_t) c == decpt && (flags & DPTOK))
+		    {
+		      flags &= ~(SIGNOK | DPTOK);
+		      leading_zeroes = zeroes;
 		      goto fok;
 		    }
 		  break;

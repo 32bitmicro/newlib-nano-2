@@ -48,7 +48,7 @@ _EXFUN(viscanf, (const char *, __VALIST)
 int
 _DEFUN(_vscanf_r, (ptr, fmt, ap),
        struct _reent *ptr _AND 
-       _CONST char *fmt   _AND 
+       _CONST char *__restrict fmt   _AND 
        va_list ap)
 {
   _REENT_SMALL_CHECK_INIT (ptr);

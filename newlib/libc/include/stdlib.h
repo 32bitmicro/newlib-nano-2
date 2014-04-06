@@ -39,7 +39,9 @@ typedef struct
   long rem; /* remainder */
 } ldiv_t;
 
-#ifndef __STRICT_ANSI__
+#if !defined(__STRICT_ANSI__) || \
+  (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || \
+  (defined(__cplusplus) && __cplusplus >= 201103L)
 typedef struct
 {
   long long int quot; /* quotient */
@@ -94,14 +96,14 @@ ldiv_t	_EXFUN(ldiv,(long __numer, long __denom));
 _PTR	_EXFUN_NOTHROW(malloc,(size_t __size));
 int	_EXFUN(mblen,(const char *, size_t));
 int	_EXFUN(_mblen_r,(struct _reent *, const char *, size_t, _mbstate_t *));
-int	_EXFUN(mbtowc,(wchar_t *, const char *, size_t));
-int	_EXFUN(_mbtowc_r,(struct _reent *, wchar_t *, const char *, size_t, _mbstate_t *));
+int	_EXFUN(mbtowc,(wchar_t *__restrict, const char *__restrict, size_t));
+int	_EXFUN(_mbtowc_r,(struct _reent *, wchar_t *__restrict, const char *__restrict, size_t, _mbstate_t *));
 int	_EXFUN(wctomb,(char *, wchar_t));
 int	_EXFUN(_wctomb_r,(struct _reent *, char *, wchar_t, _mbstate_t *));
-size_t	_EXFUN(mbstowcs,(wchar_t *, const char *, size_t));
-size_t	_EXFUN(_mbstowcs_r,(struct _reent *, wchar_t *, const char *, size_t, _mbstate_t *));
-size_t	_EXFUN(wcstombs,(char *, const wchar_t *, size_t));
-size_t	_EXFUN(_wcstombs_r,(struct _reent *, char *, const wchar_t *, size_t, _mbstate_t *));
+size_t	_EXFUN(mbstowcs,(wchar_t *__restrict, const char *__restrict, size_t));
+size_t	_EXFUN(_mbstowcs_r,(struct _reent *, wchar_t *__restrict, const char *__restrict, size_t, _mbstate_t *));
+size_t	_EXFUN(wcstombs,(char *__restrict, const wchar_t *__restrict, size_t));
+size_t	_EXFUN(_wcstombs_r,(struct _reent *, char *__restrict, const wchar_t *__restrict, size_t, _mbstate_t *));
 #ifndef __STRICT_ANSI__
 #ifndef _REENT_ONLY
 char *	_EXFUN(mkdtemp,(char *));
@@ -123,12 +125,13 @@ int	_EXFUN(rand,(_VOID));
 _PTR	_EXFUN_NOTHROW(realloc,(_PTR __r, size_t __size));
 #ifndef __STRICT_ANSI__
 _PTR	_EXFUN(reallocf,(_PTR __r, size_t __size));
+char *	_EXFUN(realpath, (const char *__restrict path, char *__restrict resolved_path));
 #endif
 _VOID	_EXFUN(srand,(unsigned __seed));
-double	_EXFUN(strtod,(const char *__n, char **__end_PTR));
-double	_EXFUN(_strtod_r,(struct _reent *,const char *__n, char **__end_PTR));
+double	_EXFUN(strtod,(const char *__restrict __n, char **__restrict __end_PTR));
+double	_EXFUN(_strtod_r,(struct _reent *,const char *__restrict __n, char **__restrict __end_PTR));
 #if !defined(__STRICT_ANSI__) || (__STDC_VERSION__ >= 199901L) || (__cplusplus >= 201103L)
-float	_EXFUN(strtof,(const char *__n, char **__end_PTR));
+float	_EXFUN(strtof,(const char *__restrict __n, char **__restrict __end_PTR));
 #endif
 #ifndef __STRICT_ANSI__
 /* the following strtodf interface is deprecated...use strtof instead */
@@ -136,10 +139,10 @@ float	_EXFUN(strtof,(const char *__n, char **__end_PTR));
 #  define strtodf strtof
 # endif
 #endif
-long	_EXFUN(strtol,(const char *__n, char **__end_PTR, int __base));
-long	_EXFUN(_strtol_r,(struct _reent *,const char *__n, char **__end_PTR, int __base));
-unsigned long _EXFUN(strtoul,(const char *__n, char **__end_PTR, int __base));
-unsigned long _EXFUN(_strtoul_r,(struct _reent *,const char *__n, char **__end_PTR, int __base));
+long	_EXFUN(strtol,(const char *__restrict __n, char **__restrict __end_PTR, int __base));
+long	_EXFUN(_strtol_r,(struct _reent *,const char *__restrict __n, char **__restrict __end_PTR, int __base));
+unsigned long _EXFUN(strtoul,(const char *__restrict __n, char **__restrict __end_PTR, int __base));
+unsigned long _EXFUN(_strtoul_r,(struct _reent *,const char *__restrict __n, char **__restrict __end_PTR, int __base));
 
 int	_EXFUN(system,(const char *__string));
 
@@ -192,16 +195,16 @@ long long _EXFUN(llabs,(long long));
 lldiv_t	_EXFUN(lldiv,(long long __numer, long long __denom));
 #endif /* ! __STRICT_ANSI__ */
 #if !defined(__STRICT_ANSI__) || (__STDC_VERSION__ >= 199901L) || (__cplusplus >= 201103L)
-long long _EXFUN(strtoll,(const char *__n, char **__end_PTR, int __base));
+long long _EXFUN(strtoll,(const char *__restrict __n, char **__restrict __end_PTR, int __base));
 #endif
 #ifndef __STRICT_ANSI__
-long long _EXFUN(_strtoll_r,(struct _reent *, const char *__n, char **__end_PTR, int __base));
+long long _EXFUN(_strtoll_r,(struct _reent *, const char *__restrict __n, char **__restrict __end_PTR, int __base));
 #endif /* ! __STRICT_ANSI__ */
 #if !defined(__STRICT_ANSI__) || (__STDC_VERSION__ >= 199901L) || (__cplusplus >= 201103L)
-unsigned long long _EXFUN(strtoull,(const char *__n, char **__end_PTR, int __base));
+unsigned long long _EXFUN(strtoull,(const char *__restrict __n, char **__restrict __end_PTR, int __base));
 #endif
 #ifndef __STRICT_ANSI__
-unsigned long long _EXFUN(_strtoull_r,(struct _reent *, const char *__n, char **__end_PTR, int __base));
+unsigned long long _EXFUN(_strtoull_r,(struct _reent *, const char *__restrict __n, char **__restrict __end_PTR, int __base));
 
 #ifndef __CYGWIN__
 _VOID	_EXFUN(cfree,(_PTR));
@@ -230,9 +233,8 @@ _VOID	_EXFUN(__eprintf,(const char *, const char *, unsigned int, const char *))
 /* On platforms where long double equals double.  */
 #ifdef _LDBL_EQ_DBL
 #if !defined(__STRICT_ANSI__) || (__STDC_VERSION__ >= 199901L) || (__cplusplus >= 201103L)
-extern long double strtold (const char *, char **);
+extern long double strtold (const char *__restrict, char **__restrict);
 #endif
-extern long double wcstold (const wchar_t *, wchar_t **);
 #endif /* _LDBL_EQ_DBL */
 
 _END_STD_C

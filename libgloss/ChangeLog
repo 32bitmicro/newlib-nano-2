@@ -1,3 +1,33 @@
+2013-12-04  Steve Ellcey <sellcey@mips.com>
+
+	* mips/cfe_api.h: Include stdint.h.
+
+2013-11-21  Daniel Ramirez <javamonn@gmail.com>
+
+	* d30v/syscalls.c, i960/mon960.c, m68k/io-stat.c, mt/stat.c,
+	spu/lstat.c, spu/stat.c: Add restrict keyword.
+
+2013-11-21  Marcus Shawcroft  <marcus.shawcroft@arm.com>
+
+	* aarch64/ftruncate.c: Include errno.h.
+	(ftruncate) Set errno.
+	* aarch64/truncate.c: Include errno.h.
+	(truncate) Set errno.
+
+2013-11-20  Marcus Shawcroft  <marcus.shawcroft@arm.com>
+
+	* arm/ftruncate.c: Include errno.h.
+	(ftruncate) Set errno.
+	* arm/truncate.c: Include errno.h.
+	(truncate) Set errno.
+
+2013-11-18  Marcus Shawcroft  <marcus.shawcroft@arm.com>
+
+	* arm/ftruncate.c: New.
+	* arm/truncate.c: New.
+	* arm/Makefile.in (RDPMON_OBJS): Add ftruncate.o and truncate.o.
+	(rdimon-ftruncate.o, rdimon-truncate.o): New rule:
+
 2013-10-14  Ramana Radhakrishnan  <ramana.radhakrishnan@arm.com>
 
 	* arm/cpu-init/rdimon-aem.S: Disable for M class cores.

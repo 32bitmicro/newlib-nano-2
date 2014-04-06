@@ -1,16 +1,11 @@
-2013-11-27  Bin Cheng <bin.cheng@arm.com>
-
-	* arm/elf-nano.specs: Fix conflict among nano.specs,
-	rdimon.specs and nosys.specs.
-	* arm/elf-rdimon.specs: Ditto.
-	* libnosys/nosys.specs: Ditto.
-
-2013-11-26  Bin Cheng <bin.cheng@arm.com>
+2014-02-28  Bin Cheng <bin.cheng@arm.com>
 
 	* arm/elf-nano.specs: New file.
-	* arm/Makefile.in: Support nano.specs.
+	* arm/elf-rdimon.specs: Fix conflict among nano.specs,
+	rdimon.specs and nosys.specs.
+	* libnosys/nosys.specs: Ditto.
 
-2013-11-26  Bin Cheng <bin.cheng@arm.com>
+2014-02-28  Bin Cheng <bin.cheng@arm.com>
 
 	* libnosys/sbrk.c (_sbrk): Detect short of memory for arm.
 	(stack_ptr): New global register var.
